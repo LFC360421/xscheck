@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>学生考勤管理系统-登录页面</title>
+    <meta charset="UTF-8">
+    <script src="webjars/jquery/3.1.1/jquery.min.js"></script>
+    <script src="webjars/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="webjars/bootstrap/3.3.5/css/bootstrap.min.css" />
+    <link rel="shortcut icon" href="#"/>
+    <script type="text/javascript" src="/js/login.js"></script>
+    <style type="text/css">
+    body {
+	background: url(/dist/images/bg4.jpg) no-repeat;
+	position: relative;
+	background-size:100%;
+    }
+    .jz {
+	margin: 0 auto;
+    }
+    .div-form {
+	background: rgba(255, 255, 255, 0.5);
+	width: 480px;
+	height: 300px;
+	position: absolute;
+	top: 100px;
+	right: 35%;;
+	padding: 10px;
+    }
+</style>
+</head>
+<body>
+<!--<div align="center" style="background:wheat; width:100%; height:100%;" >-->
+<div class="div-form jz">
+    <p id="prompt"></p>
+    <div align="center" >
+        <font face="华文新魏" size="4">考勤管理系统</font>
+    </div>
+    <p>账号：<input type="text"  id="name" name="name"/></p>
+    <p>密码：<input type="password"  id="password" name="password"/></p>
+    <p>角色：<select name="test" title="请选择角色" class="test" id="test">
+             <option value="教师">教师</option>
+             <option value="学生">学生</option>
+             <option value="管理员">管理员</option>
+             </select> </p>
+    <p>
+            <button type="button" class="btn btn-primary" id="user_insert_btn">登录</button>
+
+    </p>
+
+</div>
+</body>
+</html>

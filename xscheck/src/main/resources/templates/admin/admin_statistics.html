@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>教师考勤统计</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/dist/css/easyui.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/dist/css/icon.css}" />
+    <link rel="shortcut icon" href="#"/>
+    <script type="text/javascript" src="/dist/js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="/dist/js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/dist/js/loading.js"></script>
+    <script type="text/javascript">
+	$(function(){
+	        initSemester();
+		});
+	function initSemester(){
+			$.post("/getAcadyearterm",null,function(list){
+						for(var i=0;i<list.length;i++){
+								var option="<option value='"+list[i]+"'>"+list[i]+"</option>";
+								$("#acadyearterm").append(option);
+							}
+				},"json");
+	}
+
+	function getTeacherState(){
+	         var acadyearterm=$("#acadyearterm").val();
+             var majorclass=$("#majorclass").val();
+             var coursename=$("#coursename").val();
+            $("#teacherStatisticsDatagrid").datagrid("load",{
+                "acadyearterm":acadyearterm,
+				"majorclass":majorclass,
+				"coursename":coursename
+			});
+	}
+    </script>
+</head>
+<body>
+<div id='loading' style="position:absolute;z-index:1000;top:0px;left:0px;width:100%;height:100%;background:#DDDDDB;text-align:center;padding-top: 20%;"></div>
+<table class="easyui-datagrid" fit="true" fitColumns="true" id="teacherStatisticsDatagrid"
+       pagination="true" rowNumbers="true" url="/getTeacherStatistics" toolbar="#tb">
+    <thead>
+    <tr>
+        <!--        <th checkbox="true" field="ck"></th>-->
+        <th field="sno">学号</th>
+        <th field="sname">专业班级</th>
+        <th field="arrivedNum">已到次数</th>
+        <th field="applyNum">请假次数</th>
+        <th field="truancyNum">旷课次数</th>
+    </tr>
+    </thead>
+</table>
+<div id="tb" style="padding: 5px">
+    <span>学期学年:</span>
+    <select id="acadyearterm"  title="请输入">
+        <option  value="0" disabled selected="selected" style="display:none">请输入</option>
+    </select>
+    <span>专业班级:</span>
+    <input type="text" id="majorclass"/>
+    <span>课程名称:</span>
+    <input type="text" id="coursename"/>
+    <a href="javascript:getTeacherState()" class="easyui-linkbutton" iconCls="icon-search">查看</a>
+</div>
+</body>

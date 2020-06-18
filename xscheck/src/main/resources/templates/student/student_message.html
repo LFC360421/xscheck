@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/dist/css/easyui.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/dist/css/icon.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/dist/css/main.css}" type="text/css">
+    <link rel="shortcut icon" href="#"/>
+    <script src="/dist/js/jquery-3.1.1.min.js" type="text/javascript"></script>
+    <script src="/dist/js/jquery.easyui.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function(){
+                var url="/login_message";
+                $.post(url,null,function(result){
+                        if(result!=""){
+                            $("#studentMessageForm").form("load",{
+                                    "sno":result.student.sno,
+                                    "sname":result.student.sname,
+                                    "sex":result.student.sex,
+                                    "phone":result.student.phone,
+                                    "majorclass":result.student.majorclass
+                                });
+                            }
+                    },"json");
+            });
+        function save(){
+                $("#studentMessageForm").form("submit",{
+                        url:"/updateStudent",
+                        success:function(data){
+                                if(data=="1"){
+                                    alert("修改成功");
+                                }else{
+                                    alert("修改失败!");
+                                }
+                            }
+                    });
+            }
+    </script>
+</head>
+<body>
+<div class="easyui-panel" title="个人信息" fit="true">
+    <form  method="post"  id="studentMessageForm" style="text-align:center">
+        <table style="border-collapse:separate;border-spacing:0px 10px;margin:auto" >
+            <tr>
+                <td>学号:</td>
+                <td><input name="sno" readonly="readonly"/></td>
+            </tr>
+            <tr>
+                <td>姓名:</td>
+                <td><input name="sname" /></td>
+            </tr>
+            <tr>
+                <td>性别:</td>
+                <td><select name="sex"  title="请选择" id="sex">
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                </select></td>
+            </tr>
+            <tr>
+                <td>联系电话:</td>
+                <td><input  name="phone" ></td>
+            </tr>
+            <tr>
+                <td>专业班级:</td>
+                <td><input  name="majorclass" ></td>
+            </tr>
+            <tr>
+                <td><a href="javascript:save()" class="easyui-linkbutton" iconCls="icon-save">保存</a></td>
+            </tr>
+        </table>
+    </form>
+
+</div>
+</body>
+</html>

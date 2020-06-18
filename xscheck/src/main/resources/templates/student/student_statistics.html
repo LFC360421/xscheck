@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>学生考勤统计</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/dist/css/easyui.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/dist/css/icon.css}" />
+    <link rel="shortcut icon" href="#"/>
+    <script type="text/javascript" src="/dist/js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="/dist/js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/dist/js/loading.js"></script>
+    <script type="text/javascript">
+	$(function(){
+			initSemester();
+		});
+	function initSemester(){
+			$.post("/getAcadyearterm",null,function(list){
+						for(var i=0;i<list.length;i++){
+								var option="<option value='"+list[i]+"'>"+list[i]+"</option>";
+								$("#acadyearterm").append(option);
+							}
+				},"json");
+		}
+	function changeAcadyearterm(){
+			var acadyearterm=$("#acadyearterm").val();
+<!--			console.log(acadyearterm);-->
+			$("#studentStatisticsDatagrid").datagrid("load",{
+					"acadyearterm":acadyearterm
+				});
+		}
+    </script>
+</head>
+<body>
+<div id='loading' style="position:absolute;z-index:1000;top:0px;left:0px;width:100%;height:100%;background:#DDDDDB;text-align:center;padding-top: 20%;"></div>
+<table class="easyui-datagrid" fit="true" fitColumns="true" id="studentStatisticsDatagrid"
+       pagination="true" rowNumbers="true" url="/getStudentStatistics" toolbar="#tb">
+    <thead>
+    <tr>
+<!--        <th checkbox="true" field="ck"></th>-->
+        <th field="coursename">课程名称</th>
+        <th field="majorclass">专业班级</th>
+        <th field="tname">上课老师</th>
+        <th field="checktime">考勤时间</th>
+        <th field="istruancy">考勤状态</th>
+        <th field="acadyearterm">学年学期</th>
+    </tr>
+    </thead>
+</table>
+<div id="tb" style="padding: 5px">
+    <div>
+        <span>学期学年:</span>
+        <select id="acadyearterm" onchange="changeAcadyearterm()" title="请输入">
+            <option  value="0" disabled selected="selected" style="display:none">请输入</option>
+        </select>
+    </div>
+</div>
+</body>
